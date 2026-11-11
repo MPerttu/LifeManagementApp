@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="LifeManagementApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:LifeManagementApp.Views"
+    Title="LifeManagementApp">
+
+    <TabBar>
+        <Tab Title="Koti" Icon="home.png">
+            <ShellContent ContentTemplate="{DataTemplate views:HomePage}" Route="HomePage" />
+        </Tab>
+        <Tab Title="Tehtävät" Icon="list.png">
+            <ShellContent ContentTemplate="{DataTemplate views:TodoListPage}" Route="TodoListPage" />
+        </Tab>
+        <ShellContent Title="Asetukset"
+                      Icon="{OnPlatform Default='settings.png', WinUI=''}"
+                      ContentTemplate="{DataTemplate views:SettingsPage}"
+                      Route="SettingsPage" />
+    </TabBar>
+
+</Shell>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:LifeManagementApp.ViewModels"
+             xmlns:models="clr-namespace:LifeManagementApp.Models"
+             xmlns:converters="clr-namespace:LifeManagementApp.Converters"
+             x:Class="LifeManagementApp.Views.TodoListPage"
+             x:DataType="vm:TodoListViewModel"
+             Title="Kaikki tehtävät">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:PriorityToColorConverter x:Key="PriorityToColor" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="12">
+
+        <!-- LAJITTELUNAPIT -->
+        <HorizontalStackLayout Grid.Row="0" Spacing="10" HorizontalOptions="Center">
+            <Button Text="Järjestä: Prioriteetti" 
+                    Command="{Binding SortByPriorityCommand}" 
+                    BackgroundColor="#E2E8F0" TextColor="#1E293B" CornerRadius="8" />
+            <Button Text="Järjestä: Päivämäärä" 
+                    Command="{Binding SortByDateCommand}" 
+                    BackgroundColor="#E2E8F0" TextColor="#1E293B" CornerRadius="8" />
+        </HorizontalStackLayout>
+
+        <!-- LISÄÄ UUSI NAPPI -->
+        <Button Grid.Row="1" 
+                Text="+ Lisää uusi tehtävä" 
+                Command="{Binding GoToAddTodoPageCommand}" 
+                BackgroundColor="#10B981" TextColor="White" FontAttributes="Bold" CornerRadius="8" />
+
+        <!-- TEHTÄVÄLISTA (CollectionView + suora Poista-painike) -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Todos}">
+            <CollectionView.EmptyView>
+                <Label Text="Ei vielä tallennettuja tehtäviä." 
+                       TextColor="#94A3B8" FontAttributes="Italic" HorizontalTextAlignment="Center" Margin="30" />
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:TodoItem">
+                    <Border Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="12" Margin="0,4" BackgroundColor="White">
+                        <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="12" VerticalOptions="Center">
+
+                            <!-- Valintaruutu: IsDone -->
+                            <CheckBox Grid.Column="0" 
+                                      IsChecked="{Binding IsDone}" 
+                                      Color="#10B981"
+                                      VerticalOptions="Center" />
+
+                            <!-- Tehtävän otsikko ja eräpäivä (klikkaus avaa muokkauksen) -->
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                <VerticalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TodoListViewModel}}, Path=GoToEditTodoPageCommand}"
+                              CommandParameter="{Binding .}" />
+                                </VerticalStackLayout.GestureRecognizers>
+                                <Label Text="{Binding Title}" FontSize="16" FontAttributes="Bold" TextColor="#0F172A" />
+                                <Label Text="{Binding Category.Name, FallbackValue='Yleinen'}" FontSize="12" TextColor="#2563EB" FontAttributes="Italic" />
+                                <Label Text="{Binding DueDate, StringFormat='Eräpäivä: {0:dd.MM.yyyy}'}" FontSize="13" TextColor="#64748B" />
+                            </VerticalStackLayout>
+
+                            <!-- Prioriteettimerkki konvertterilla -->
+                            <Border Grid.Column="2" StrokeThickness="0" 
+                                    BackgroundColor="{Binding Priority, Converter={StaticResource PriorityToColor}}" 
+                                    StrokeShape="RoundRectangle 6" Padding="8,4" VerticalOptions="Center">
+                                <Label Text="{Binding Priority, StringFormat='Taso {0}'}" FontSize="12" FontAttributes="Bold" TextColor="#1E293B" />
+                            </Border>
+
+                            <!-- POISTA-NAPPI -->
+                            <Button Grid.Column="3" 
+                                    Text="✕" 
+                                    TextColor="#EF4444" 
+                                    BackgroundColor="#FEE2E2" 
+                                    FontAttributes="Bold" 
+                                    CornerRadius="6" 
+                                    WidthRequest="36" 
+                                    HeightRequest="36" 
+                                    Padding="0"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TodoListViewModel}}, Path=DeleteTodoCommand}" 
+                                    CommandParameter="{Binding .}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

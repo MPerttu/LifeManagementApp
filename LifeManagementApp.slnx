@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="LifeManagementApp.Tests/LifeManagementApp.Tests.csproj" Id="4f7f61fe-b520-48b1-bbd8-3b09bab44357" />
+  <Project Path="LifeManagementApp/LifeManagementApp.csproj" />
+</Solution>

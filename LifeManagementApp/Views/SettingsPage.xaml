@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:LifeManagementApp.ViewModels"
+             x:Class="LifeManagementApp.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             Title="Asetukset">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <Label Text="Sovelluksen asetukset" FontSize="22" FontAttributes="Bold" TextColor="#0F172A" />
+
+            <!-- SIJAINNIN VALINTA -->
+            <Border Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="16" BackgroundColor="White">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Sääennusteen sijainti" FontSize="16" FontAttributes="Bold" TextColor="#1E293B" />
+                    <Label Text="Valitse kaupunki, jonka säätiedot haetaan etusivulle:" FontSize="13" TextColor="#64748B" />
+
+                    <Picker ItemsSource="{Binding AvailableCities}" 
+                            ItemDisplayBinding="{Binding Name}" 
+                            SelectedItem="{Binding SelectedCity}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- TUULIRAJAN SÄÄTÖ -->
+            <Border Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="16" BackgroundColor="White">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Kitesurf-tuuliraja (m/s)" FontSize="16" FontAttributes="Bold" TextColor="#1E293B" />
+                    <Label Text="{Binding WindThreshold, StringFormat='Hälytysraja: {0:F1} m/s'}" 
+                           FontSize="15" FontAttributes="Bold" TextColor="#0284C7" />
+
+                    <!-- Liukusäädin tuulirajalle (3.0 - 12.0 m/s) -->
+                    <Slider Minimum="3.0" Maximum="12.0" Value="{Binding WindThreshold}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- TALLENNA-NAPPI JA ILMOITUS -->
+            <Button Text="Tallenna asetukset" 
+                    Command="{Binding SaveSettingsCommand}" 
+                    BackgroundColor="#2563EB" TextColor="White" FontAttributes="Bold" CornerRadius="8" HeightRequest="45" />
+
+            <Label Text="{Binding StatusMessage}" 
+                   IsVisible="{Binding IsStatusMessageVisible}"
+                   TextColor="#10B981" FontSize="14" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

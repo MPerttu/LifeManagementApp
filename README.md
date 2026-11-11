@@ -44,6 +44,18 @@ Ratkaisu sisältää erillisen testiprojektin **`LifeManagementApp.Tests`**, jok
 
 ---
 
+## 🤖 Tekoälyn käyttö
+
+Projektin kehityksessä on hyödynnetty tekoälyä (Google Gemini) sparrauskumppanina, koodin refaktoroinnissa sekä xUnit-yksikkötestien rakentamisessa. Tekoälyä on käytetty erityisesti:
+* MVVM-mallin mukaisten luokkien ja XAML-sidontojen oikeellisuuden varmistamiseen.
+* Open-Meteo REST API:n JSON-datan käsittely- ja suodatuslogiikan (LINQ) suunnitteluun.
+* Testitapausten (AAA-malli, Fact/Theory) muodostamiseen liiketoimintalogiikan testaamiseksi.
+* Virhetilanteiden selvittämiseen ja koodin dokumentointiin.
+
+Kaikki ratkaisut on käyty läpi, testattu kehitysympäristössä ja integroitu osaksi kokonaisuutta itsenäisesti.
+
+---
+
 ## 🚀 Käyttöönotto & Ajo
 
 1. Kloonaa repositorio:
